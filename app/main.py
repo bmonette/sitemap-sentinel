@@ -4,6 +4,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import OAuth2PasswordBearer
 from app.config import settings
 from app.routes import auth as auth_routes
+from app.routes import projects as projects_routes
+
 
 app = FastAPI(
     title="Sitemap Sentinel",
@@ -27,8 +29,8 @@ app.add_middleware(
 def healthz():
     return {"status": "ok"}
 
-from app.routes import auth as auth_routes
 app.include_router(auth_routes.router)
+app.include_router(projects_routes.router)
 
 
 # This route can be used to verify that environment variables are being loaded correctly.

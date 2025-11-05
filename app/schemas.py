@@ -1,4 +1,4 @@
-from pydantic import BaseModel, EmailStr, Field
+from pydantic import BaseModel, EmailStr, Field, AnyHttpUrl
 from datetime import datetime
 
 
@@ -24,3 +24,27 @@ class LoginIn(BaseModel):
 class TokenOut(BaseModel):
     access_token: str
     token_type: str = "bearer"
+
+
+class ProjectIn(BaseModel):
+    name: str = Field(min_length=1, max_length=200)
+    site_url: AnyHttpUrl
+    sitemap_url: AnyHttpUrl
+
+
+class ProjectOut(BaseModel):
+    id: int
+    name: str
+    site_url: AnyHttpUrl
+    sitemap_url: AnyHttpUrl
+    created_at: datetime
+    updated_at: datetime | None = None
+
+    class Config:
+        from_attributes = True
+
+
+class ProjectUpdate(BaseModel):
+    name: str | None = Field(default=None, min_length=1, max_length=200)
+    site_url: AnyHttpUrl | None = None
+    sitemap_url: AnyHttpUrl | None = None
